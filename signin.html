@@ -2,42 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="robots" content="noindex" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign in</title>
-
-  <!-- B2C official style -->
-  <link rel="stylesheet"
-        href="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/styles.css" />
-
-  <style>
-    body {
-      background-color: #f5f7fa;
-      font-family: 'Segoe UI', Arial, sans-serif;
-    }
-    .custom-note {
-      color: #d83b01;
-      font-weight: 600;
-      margin: 20px auto;
-      padding: 10px 16px;
-      max-width: 600px;
-      background-color: #fff3cd;
-      border-radius: 6px;
-      border: 1px solid #ffeeba;
-    }
-  </style>
 </head>
-
 <body>
-  <!-- ✅ Keep this OUTSIDE the #api div -->
-  <div class="custom-note">
-    ⚠ User must enter a username that begins with <strong>ZZ</strong>
-    (for example, <code>zzPasakorn</code>)
+
+  <!-- Your custom static message -->
+  <div style="text-align:center; color:#d83b01; font-weight:600; margin-top:10px;">
+    You must sign in with a User ID that begins with <strong>ZZ</strong> 
+    (for example, <code>zzTest01</code>)
   </div>
 
-  <!-- ✅ Azure B2C injects its form here -->
+  <!-- Required placeholder: B2C injects its default Ocean Blue layout here -->
   <div id="api"></div>
 
-  <script src="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/scripts.js"></script>
 </body>
 </html>
