@@ -3,20 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign in Daimai</title>
+  <title>Sign in</title>
+
+  <!-- Use your tenant's static assets for the Ocean Blue look -->
+  <link rel="stylesheet"
+        href="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/styles.css" />
 </head>
+
 <body>
-
-  <!-- Your custom static message -->
-  <div style="text-align:center; color:#d83b01; font-weight:600; margin-top:10px;">
-    You must sign in with a User ID that begins with Daimai Kingcase dubble test <strong>ZZ</strong> 
-    (for example, <code>zzTest01</code>)
-  </div>
-
-  <!-- Required placeholder: B2C injects its default Ocean Blue layout here -->
   <div id="api"></div>
 
+  <!-- Your custom message (inside the white card area) -->
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+      const formTitle = document.querySelector(".intro h2");
+      if (formTitle) {
+        const msg = document.createElement("p");
+        msg.textContent =
+          "You must sign in with a User ID that begins with ZZ (for example, zzTest01)";
+        msg.style.color = "#d83b01";
+        msg.style.fontWeight = "600";
+        msg.style.marginTop = "8px";
+        formTitle.parentNode.insertBefore(msg, formTitle.nextSibling);
+      }
+    });
+  </script>
+
+  <script src="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/scripts.js"></script>
 </body>
 </html>
-
-
