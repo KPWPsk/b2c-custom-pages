@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign in</title>
 
-  <!-- 👇 Must point to your tenant’s B2C static assets -->
-  <link rel="stylesheet" href="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/styles.css" />
+  <!-- B2C official style -->
+  <link rel="stylesheet"
+        href="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/styles.css" />
 
   <style>
     body {
@@ -17,27 +18,26 @@
     .custom-note {
       color: #d83b01;
       font-weight: 600;
-      margin-bottom: 12px;
-      padding: 10px;
+      margin: 20px auto;
+      padding: 10px 16px;
+      max-width: 600px;
       background-color: #fff3cd;
       border-radius: 6px;
       border: 1px solid #ffeeba;
-    }
-    #api {
-      margin-top: 40px;
     }
   </style>
 </head>
 
 <body>
-  <div id="api" class="container">
-    <!-- 👇 This div is where Azure B2C injects its form -->
-    <div class="custom-note">
-      ⚠ User must enter a username that begins with <strong>ZZ</strong> (for example, <code>zzPasakorn</code>)
-    </div>
+  <!-- ✅ Keep this OUTSIDE the #api div -->
+  <div class="custom-note">
+    ⚠ User must enter a username that begins with <strong>ZZ</strong>
+    (for example, <code>zzPasakorn</code>)
   </div>
 
-  <!-- 👇 B2C engine script -->
+  <!-- ✅ Azure B2C injects its form here -->
+  <div id="api"></div>
+
   <script src="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/scripts.js"></script>
 </body>
 </html>
