@@ -141,29 +141,33 @@
 <script>
 (function () {
   function addNote() {
-    var heading = document.querySelector('#api .intro h2');
+    // Microsoft B2C renders the intro text inside .intro or .localAccount .intro
+    var heading = document.querySelector('#api .localAccount .intro h2');
     if (heading && !document.getElementById('zz-note')) {
-      var p = document.createElement('p');
-      p.id = 'zz-note';
-      p.textContent = 'ได้โปรดลงชื่อเข้าใช้งานด้วย UserID โดยจะขึ้นต้นด้วย zz ตามด้วยชื่อและนามสกุลตัวแรก เช่น zztestk';
-      p.style.fontSize = '14px';
-      p.style.color = '#444';
-      p.style.marginTop = '4px';
-      heading.insertAdjacentElement('afterend', p);
+      var note = document.createElement('p');
+      note.id = 'zz-note';
+      note.textContent = 'ได้โปรดลงชื่อเข้าใช้งานด้วย UserID โดยจะขึ้นต้นด้วย zz ตามด้วยชื่อและนามสกุลตัวแรก เช่น zztestk';
+      note.style.fontSize = '13px';
+      note.style.color = '#666';
+      note.style.marginTop = '6px';
+      note.style.marginBottom = '0';
+      heading.insertAdjacentElement('afterend', note);
     }
   }
 
+  // Watch for B2C dynamically rendering the form
   document.addEventListener('DOMContentLoaded', function () {
-    addNote();
-    // B2C populates #api asynchronously; keep watching until the heading exists
     var api = document.getElementById('api');
     if (api) {
       new MutationObserver(addNote).observe(api, { childList: true, subtree: true });
     }
+    addNote();
   });
 })();
 </script>
 
 
+
 </body></html>
+
 
