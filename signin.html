@@ -137,6 +137,33 @@
             </div>
         </div>
     </div>
+    
+<script>
+(function () {
+  function addNote() {
+    var heading = document.querySelector('#api .intro h2');
+    if (heading && !document.getElementById('zz-note')) {
+      var p = document.createElement('p');
+      p.id = 'zz-note';
+      p.textContent = 'ได้โปรดลงชื่อเข้าใช้งานด้วย UserID โดยจะขึ้นต้นด้วย zz ตามด้วยชื่อและนามสกุลตัวแรก เช่น zztestk';
+      p.style.fontSize = '14px';
+      p.style.color = '#444';
+      p.style.marginTop = '4px';
+      heading.insertAdjacentElement('afterend', p);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    addNote();
+    // B2C populates #api asynchronously; keep watching until the heading exists
+    var api = document.getElementById('api');
+    if (api) {
+      new MutationObserver(addNote).observe(api, { childList: true, subtree: true });
+    }
+  });
+})();
+</script>
 
 
 </body></html>
+
