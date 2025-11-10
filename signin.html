@@ -5,30 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign in</title>
 
-  <!-- Use your tenant's static assets for the Ocean Blue look -->
+  <!-- Official Microsoft-hosted Ocean Blue template -->
   <link rel="stylesheet"
-        href="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/styles.css" />
+        href="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/styles.css" />
 </head>
-
 <body>
   <div id="api"></div>
 
-  <!-- Your custom message (inside the white card area) -->
-  <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-      const formTitle = document.querySelector(".intro h2");
-      if (formTitle) {
-        const msg = document.createElement("p");
-        msg.textContent =
+  <!-- Insert custom note once B2C renders the form -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const heading = document.querySelector(".intro h2");
+      if (heading) {
+        const note = document.createElement("p");
+        note.textContent =
           "You must sign in with a User ID that begins with ZZ (for example, zzTest01)";
-        msg.style.color = "#d83b01";
-        msg.style.fontWeight = "600";
-        msg.style.marginTop = "8px";
-        formTitle.parentNode.insertBefore(msg, formTitle.nextSibling);
+        note.style.color = "#d83b01";
+        note.style.fontWeight = "600";
+        note.style.marginTop = "8px";
+        heading.parentNode.insertBefore(note, heading.nextSibling);
       }
     });
   </script>
 
-  <script src="https://b2cfx01.b2clogin.com/static/tenant/templates/AzureBlue/scripts.js"></script>
+  <script src="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/scripts.js"></script>
 </body>
 </html>
