@@ -4,38 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign in</title>
-  <link href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/styles.css" rel="stylesheet" />
+
+  <!-- Official Azure AD B2C layout CSS -->
+  <link rel="stylesheet"
+        href="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/styles.css" />
 </head>
 
 <body>
-  <!-- background -->
+  <!-- Background -->
   <div id="background_branding_container" data-tenant-branding-background-color="true">
     <img data-tenant-branding-background="true"
          src="https://login.microsoftonline.com/static/tenant/templates/backgrounds/1-1.png"
          alt="Background Image">
   </div>
 
-  <!-- main container -->
+  <!-- Main layout -->
   <div class="container unified_container" role="presentation">
     <div class="row">
       <div class="col-lg-6">
         <div class="panel panel-default">
           <div class="panel-body">
 
-            <!-- logo -->
+            <!-- Company logo -->
             <img class="companyLogo" data-tenant-branding-logo="true"
                  src="https://login.microsoftonline.com/static/tenant/templates/images/logo.svg"
                  alt="Company Logo">
 
-            <!-- Microsoft B2C injects login form here -->
+            <!-- Azure B2C injects sign-in form here -->
             <div id="api" role="main"></div>
 
-            <!-- your custom note -->
-            <div class="intro" style="margin-top:10px; text-align:center;">
-              <p id="zz-note" style="font-size:13px; color:#666;">
-                ได้โปรดลงชื่อเข้าใช้งานด้วย <strong>UserID</strong> โดยจะขึ้นต้นด้วย <strong>zz</strong>
-                ตามด้วยชื่อและนามสกุลตัวแรก เช่น <strong>zztestk</strong>
+            <!-- Custom message -->
+            <div style="margin-top:15px; text-align:center;">
+              <p style="font-size:14px; color:#444; line-height:1.4;">
+                ได้โปรดลงชื่อเข้าใช้งานด้วย <strong>UserID</strong> โดยจะขึ้นต้นด้วย
+                <strong>zz</strong> ตามด้วยชื่อและนามสกุลตัวแรก เช่น
+                <strong>zztestk</strong>
               </p>
             </div>
 
@@ -45,7 +48,7 @@
     </div>
   </div>
 
-  <!-- script for B2C -->
+  <!-- Azure AD B2C layout script -->
   <script src="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/scripts.js"></script>
 </body>
 </html>
