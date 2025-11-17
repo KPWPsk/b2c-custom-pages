@@ -139,32 +139,56 @@
     
 <script>
 (function () {
-  function addLoginInstruction() {
-    var intro = document.querySelector('#api .intro h2');
+  // ฟังก์ชันสร้างกล่องคำอธิบาย UserID
+  function addUserIdHelpBox() {
+    // หา form local account ที่ B2C inject เข้ามา
+    var form = document.querySelector('#localAccountForm');
+    if (!form) return;
+
+    // กันไม่ให้สร้างซ้ำ
+    if (document.getElementById('userIdHelpBox')) return;
+
+    // h2 "Sign in with your email address" อยู่ใน .intro
+    var intro = form.querySelector('.intro');
     if (!intro) return;
 
-    // ตรวจสอบว่าถูกเพิ่มแล้วหรือยัง
-    if (document.getElementById('login-instruction')) return;
+    // สร้างกล่องอธิบาย
+    var box = document.createElement('div');
+    box.id = 'userIdHelpBox';
+    box.style.margin = '10px 0 20px 0';
 
-    var msg = document.createElement('p');
-    msg.id = 'login-instruction';
-    msg.innerHTML = `
-        <span style="color:#444; font-size:14px;">
-            กรุณาลงชื่อเข้าใช้ด้วย <b>UserID</b> ตามรูปแบบ:<br>
-            <b>ขึ้นต้นด้วย "zz"</b> ตามด้วยชื่อผู้ใช้ เช่น <b>zztest</b><br>
-            สามารถใช้ A–Z, a–z และตัวเลข 0–9 ได้เท่านั้น
-        </span>
+    box.innerHTML = `
+      <div style="
+          border:1px solid #0094ff;
+          background:#f0f8ff;
+          padding:10px 12px;
+          font-size:13px;
+          color:#333;
+          text-align:left;
+      ">
+        <strong>รูปแบบ UserID สำหรับลงชื่อเข้าใช้</strong>
+        <ul style="margin-top:6px; padding-left:18px;">
+          <li>กรุณาลงชื่อเข้าใช้ด้วย <b>UserID</b> เท่านั้น</li>
+          <li><b>ขึ้นต้นด้วย "zz"</b> ตามด้วยชื่อผู้ใช้ เช่น <b>zztest</b></li>
+          <li>สามารถใช้ A–Z, a–z และตัวเลข 0–9 ได้เท่านั้น</li>
+        </ul>
+      </div>
     `;
-    msg.style.marginTop = '6px';
 
-    intro.insertAdjacentElement('afterend', msg);
+    // แทรกกล่องนี้ “ถัดจาก” บรรทัด Sign in with your email address
+    intro.insertAdjacentElement('afterend', box);
   }
 
+  // รอให้ B2C render เนื้อหาใน #api เสร็จก่อน แล้วค่อย inject
   document.addEventListener('DOMContentLoaded', function () {
     var api = document.getElementById('api');
-    if (api) {
-      new MutationObserver(addLoginInstruction).observe(api, { childList: true, subtree: true });
-    }
+    if (!api) return;
+
+    var observer = new MutationObserver(function () {
+      addUserIdHelpBox();
+    });
+
+    observer.observe(api, { childList: true, subtree: true });
   });
 })();
 </script>
@@ -173,6 +197,7 @@
 
 
 </body></html>
+
 
 
 
