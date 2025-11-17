@@ -139,29 +139,31 @@
     
 <script>
 (function () {
-  function addNote() {
-    // Find the injected B2C title
-    var heading = document.querySelector('#api .intro h2');
-    if (!heading) return;
+  function addLoginInstruction() {
+    var intro = document.querySelector('#api .intro h2');
+    if (!intro) return;
 
-    // Prevent duplicate insert
-    if (document.getElementById('zz-note')) return;
+    // ตรวจสอบว่าถูกเพิ่มแล้วหรือยัง
+    if (document.getElementById('login-instruction')) return;
 
-    var note = document.createElement('p');
-    note.id = 'zz-note';
-    note.textContent = 'ได้โปรดลงชื่อเข้าใช้งานด้วย UserID โดยจะขึ้นต้นด้วย zz ตามด้วยชื่อและนามสกุลตัวแรก เช่น zztestk';
-    note.style.fontSize = '13px';
-    note.style.color = '#666';
-    note.style.marginTop = '6px';
+    var msg = document.createElement('p');
+    msg.id = 'login-instruction';
+    msg.innerHTML = `
+        <span style="color:#444; font-size:14px;">
+            กรุณาลงชื่อเข้าใช้ด้วย <b>UserID</b> ตามรูปแบบ:<br>
+            <b>ขึ้นต้นด้วย "zz"</b> ตามด้วยชื่อผู้ใช้ เช่น <b>zztest</b><br>
+            สามารถใช้ A–Z, a–z และตัวเลข 0–9 ได้เท่านั้น
+        </span>
+    `;
+    msg.style.marginTop = '6px';
 
-    heading.insertAdjacentElement('afterend', note);
+    intro.insertAdjacentElement('afterend', msg);
   }
 
-  // Monitor B2C dynamic content
   document.addEventListener('DOMContentLoaded', function () {
     var api = document.getElementById('api');
     if (api) {
-      new MutationObserver(addNote).observe(api, { childList: true, subtree: true });
+      new MutationObserver(addLoginInstruction).observe(api, { childList: true, subtree: true });
     }
   });
 })();
@@ -171,6 +173,7 @@
 
 
 </body></html>
+
 
 
 
