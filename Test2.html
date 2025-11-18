@@ -46,61 +46,72 @@
       <div id="api" role="main"></div>
     </div>
   </div>
+  
+ <script>
+(function () {
+  var HELP_ID = "userIdHelpBox";
 
-  <!-- สคริปต์เพิ่มข้อความอธิบาย UserID -->
-  <script>
-    (function () {
-      function addUserIdHelpBox() {
-        var container =
-          document.querySelector('#api .localAccount') ||
-          document.getElementById('localAccountForm') ||
-          document.getElementById('api');
+  function addUserIdHelpText() {
+    // ถ้าสร้างไปแล้ว ไม่ต้องทำซ้ำ
+    if (document.getElementById(HELP_ID)) return;
 
-        if (!container) return;
-        if (document.getElementById('userIdHelpBox')) return;
+    // หา h1/h2 ที่มีข้อความ "Sign in with your email address"
+    var headings = document.querySelectorAll("h1, h2, h3");
+    var target = null;
 
-        var intro =
-          container.querySelector('.intro') ||
-          container.querySelector('h2') ||
-          container.firstChild;
-
-        if (!intro) return;
-
-        var box = document.createElement('div');
-        box.id = 'userIdHelpBox';
-        box.innerHTML = `
-          <div style="
-              border:1px solid #0094ff;
-              background:#f0f8ff;
-              padding:10px 12px;
-              font-size:13px;
-              color:#333;
-              text-align:left;
-              margin:10px 0 20px 0;
-          ">
-            <strong>รูปแบบ UserID สำหรับลงชื่อเข้าใช้</strong>
-            <ul style="margin-top:6px; padding-left:18px;">
-              <li>กรุณาลงชื่อเข้าใช้ด้วย <b>UserID</b> เท่านั้น</li>
-              <li><b>ขึ้นต้นด้วย "zz"</b> ตามด้วยชื่อผู้ใช้ เช่น <b>zztest</b></li>
-              <li>สามารถใช้ A–Z, a–z และตัวเลข 0–9 ได้เท่านั้น</li>
-            </ul>
-          </div>
-        `;
-
-        intro.insertAdjacentElement('afterend', box);
+    headings.forEach(function (h) {
+      var text = (h.textContent || "").trim();
+      if (text === "Sign in with your email address") {
+        target = h;
       }
+    });
 
-      document.addEventListener('DOMContentLoaded', function () {
-        var api = document.getElementById('api');
-        if (!api) return;
+    if (!target) return; // ยังหาไม่เจอ รอรอบต่อไปจาก MutationObserver
 
-        var observer = new MutationObserver(function () {
-          addUserIdHelpBox();
-        });
+    // สร้างกล่องคำอธิบาย
+    var box = document.createElement("div");
+    box.id = HELP_ID;
+    box.style.margin = "8px 0 16px 0";
+    box.style.fontSize = "13px";
+    box.style.color = "#333";
+    box.style.textAlign = "left";
 
-        observer.observe(api, { childList: true, subtree: true });
-      });
-    })();
-  </script>
+    box.innerHTML = ''
+      + '<div style="'
+      + 'border:1px solid #0094ff;'
+      + 'background:#f0f8ff;'
+      + 'padding:10px 12px;'
+      + 'border-radius:4px;'
+      + '">'
+      + '<strong>รูปแบบ UserID สำหรับลงชื่อเข้าใช้</strong>'
+      + '<ul style="margin-top:6px; padding-left:18px;">'
+      + '  <li>กรุณาลงชื่อเข้าใช้ด้วย <b>UserID</b> เท่านั้น</li>'
+      + '  <li><b>ขึ้นต้นด้วย "zz"</b> ตามด้วยชื่อผู้ใช้ เช่น <b>zztest</b></li>'
+      + '  <li>สามารถใช้ตัวอักษร A–Z, a–z และตัวเลข 0–9 ได้เท่านั้น</li>'
+      + '</ul>'
+      + '</div>';
+
+    // แทรกกล่องใต้หัวข้อ
+    target.insertAdjacentElement("afterend", box);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // เรียกครั้งแรกเผื่อ DOM มาแล้ว
+    addUserIdHelpText();
+
+    // เฝ้าดูการเปลี่ยนแปลง DOM (ตอน B2C render ฟอร์ม)
+    var observer = new MutationObserver(function () {
+      addUserIdHelpText();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
+
