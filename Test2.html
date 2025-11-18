@@ -139,24 +139,29 @@
     
 <script>
 (function () {
-  // ฟังก์ชันสร้างกล่องคำอธิบาย UserID
   function addUserIdHelpBox() {
-    // หา form local account ที่ B2C inject เข้ามา
-    var form = document.querySelector('#localAccountForm');
-    if (!form) return;
+    // พยายามหา container หลายแบบ เผื่อ DOM แตกต่างกันในแต่ละเทมเพลต
+    var container =
+      document.querySelector('#api .localAccount') ||
+      document.getElementById('localAccountForm') ||
+      document.getElementById('api');
 
-    // กันไม่ให้สร้างซ้ำ
+    if (!container) return;
+
+    // กันสร้างซ้ำ
     if (document.getElementById('userIdHelpBox')) return;
 
-    // h2 "Sign in with your email address" อยู่ใน .intro
-    var intro = form.querySelector('.intro');
+    // ส่วนหัว intro / title
+    var intro =
+      container.querySelector('.intro') ||
+      container.querySelector('h2') ||
+      container.firstChild;
+
     if (!intro) return;
 
     // สร้างกล่องอธิบาย
     var box = document.createElement('div');
     box.id = 'userIdHelpBox';
-    box.style.margin = '10px 0 20px 0';
-
     box.innerHTML = `
       <div style="
           border:1px solid #0094ff;
@@ -165,6 +170,7 @@
           font-size:13px;
           color:#333;
           text-align:left;
+          margin:10px 0 20px 0;
       ">
         <strong>รูปแบบ UserID สำหรับลงชื่อเข้าใช้</strong>
         <ul style="margin-top:6px; padding-left:18px;">
@@ -175,11 +181,11 @@
       </div>
     `;
 
-    // แทรกกล่องนี้ “ถัดจาก” บรรทัด Sign in with your email address
+    // แทรกกล่องใต้หัวข้อ intro
     intro.insertAdjacentElement('afterend', box);
   }
 
-  // รอให้ B2C render เนื้อหาใน #api เสร็จก่อน แล้วค่อย inject
+  // รอให้ B2C render เนื้อหาใน #api ก่อน แล้วค่อย inject
   document.addEventListener('DOMContentLoaded', function () {
     var api = document.getElementById('api');
     if (!api) return;
@@ -195,8 +201,8 @@
 
 
 
-
 </body></html>
+
 
 
 
