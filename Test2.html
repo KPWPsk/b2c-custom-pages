@@ -164,73 +164,67 @@
 
     <!-- สคริปต์จัดตำแหน่ง Forgot / Sign up -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var tries = 0;
-            var timer = setInterval(function () {
-                tries++;
+document.addEventListener("DOMContentLoaded", function () {
 
-                var apiContainer = document.querySelector("#api");
-                if (!apiContainer) return;
+    // รอให้ B2C render ฟอร์มเสร็จ
+    var tries = 0;
+    var timer = setInterval(function () {
+        tries++;
 
-                // ===== 1. หา element ต่าง ๆ ที่ต้องใช้ =====
+        var api = document.querySelector("#api");
+        if (!api) return;
 
-                // ช่อง password
-                var passwordInput = apiContainer.querySelector("input[type='password']");
+        // 1) หา <input type="password">
+        var passwordInput = api.querySelector("input[type='password']");
 
-                // ลิงก์ Forgot your password?
-                var forgotLink =
-                    apiContainer.querySelector("a[id*='forgot'], a[href*='forgot']") ||
-                    Array.from(apiContainer.querySelectorAll("a")).find(function (a) {
-                        return /forgot/i.test(a.textContent || "");
-                    });
-
-                // ปุ่ม Sign in
-                var signInButton =
-                    apiContainer.querySelector("button[type='submit'], button#next, input[type='submit']");
-
-                // ลิงก์ Sign up now (อยู่ในข้อความ Don't have an account?)
-                var signUpLink =
-                    apiContainer.querySelector("a[id*='signup'], a[href*='signup'], a[id*='create'], a[href*='create']") ||
-                    Array.from(apiContainer.querySelectorAll("a")).find(function (a) {
-                        return /sign up/i.test(a.textContent || "");
-                    });
-
-                // ===== 2. ย้าย Forgot your password? ไปใต้ Password =====
-                if (passwordInput && forgotLink) {
-                    var passwordWrapper = passwordInput.closest(".attr, .form-group, div") || passwordInput.parentNode;
-
-                    // เอา forgot ออกจากที่เดิมก่อน
-                    if (forgotLink.parentNode) {
-                        forgotLink.parentNode.removeChild(forgotLink);
-                    }
-
-                    // แทรกหลังช่องกรอก Password
-                    passwordWrapper.insertAdjacentElement("afterend", forgotLink);
-                    forgotLink.style.display = "block";
-                    forgotLink.style.margin = "4px 0 8px 0";
-                }
-
-                // ===== 3. ย้าย Don't have an account? Sign up now ไปใต้ปุ่ม Sign in =====
-                if (signInButton && signUpLink) {
-                    // ดึงทั้งประโยคที่หุ้มลิงก์ (เช่น <p>Don't have an account? <a>Sign up now</a></p>)
-                    var signUpContainer = signUpLink.closest("p, div, span") || signUpLink;
-
-                    if (signUpContainer.parentNode) {
-                        signUpContainer.parentNode.removeChild(signUpContainer);
-                    }
-
-                    // แทรกลงใต้ปุ่ม Sign in
-                    signInButton.insertAdjacentElement("afterend", signUpContainer);
-                    signUpContainer.style.marginTop = "10px";
-                }
-
-                // ถ้าจัดตำแหน่งอย่างน้อยอย่างใดอย่างหนึ่งสำเร็จแล้ว ให้หยุด polling
-                if ((passwordInput && forgotLink) || (signInButton && signUpLink) || tries > 30) {
-                    clearInterval(timer);
-                }
-            }, 300);
+        // 2) หา <a> ที่เป็น "Forgot your password?"
+        var forgotLink = Array.from(api.querySelectorAll("a")).find(function (a) {
+            return (a.textContent || "").trim().toLowerCase().indexOf("forgot your password") !== -1;
         });
-    </script>
+
+        // 3) หา ปุ่ม Sign in
+        var signInButton = api.querySelector("button[type='submit'], button#next, input[type='submit']");
+
+        // 4) หา <a> ที่เป็น "Sign up now"
+        var signUpLink = Array.from(api.querySelectorAll("a")).find(function (a) {
+            return (a.textContent || "").trim().toLowerCase().indexOf("sign up now") !== -1;
+        });
+
+        // ---------- ย้าย Forgot your password? ไปไว้ใต้ Password ----------
+        if (passwordInput && forgotLink) {
+            // เอาออกจากที่เดิมก่อน
+            if (forgotLink.parentNode) {
+                forgotLink.parentNode.removeChild(forgotLink);
+            }
+            // แทรก "หลัง" ช่อง password
+            passwordInput.insertAdjacentElement("afterend", forgotLink);
+            forgotLink.style.display = "block";
+            forgotLink.style.margin = "4px 0 10px 0";
+        }
+
+        // ---------- ย้าย Don’t have an account? Sign up now ไปใต้ปุ่ม ----------
+        if (signInButton && signUpLink) {
+            // ดึงทั้งประโยคที่หุ้มลิงก์ เช่น <p>Don't have an account? <a>Sign up now</a></p>
+            var signUpContainer = signUpLink.closest("p, div, span") || signUpLink;
+
+            if (signUpContainer.parentNode) {
+                signUpContainer.parentNode.removeChild(signUpContainer);
+            }
+
+            // แทรกลง "หลัง" ปุ่ม Sign in
+            signInButton.insertAdjacentElement("afterend", signUpContainer);
+            signUpContainer.style.marginTop = "10px";
+        }
+
+        // ถ้าลองครบ 30 รอบแล้วยังไม่เจออะไร ให้หยุด
+        if ((passwordInput && forgotLink && signInButton && signUpLink) || tries > 30) {
+            clearInterval(timer);
+        }
+
+    }, 300);
+});
+</script>
 
 </body>
 </html>
+
