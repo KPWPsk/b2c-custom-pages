@@ -1,54 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign in</title>
+    <title>Sign in</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Official Azure AD B2C layout CSS -->
-  <link rel="stylesheet"
-        href="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/styles.css" />
+    <!-- ใช้ bootstrap ของ Microsoft ตามเดิม -->
+    <link href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ทำให้ container อยู่กลางจอทั้งแนวตั้งและแนวนอน */
+        .unified_container {
+            min-height: 100vh;
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* row ให้กินเต็มความกว้าง */
+        .unified_container .row {
+            width: 100%;
+        }
+
+        /* column ให้ไม่ float และอยู่กลาง */
+        .unified_container .col-lg-6 {
+            float: none;
+            margin: 0 auto;
+        }
+
+        .panel-default {
+            margin: 0 auto;
+            max-width: 480px;
+        }
+
+        .companyLogo {
+            display: block;
+            margin: 0 auto 10px auto;
+            max-height: 60px;
+        }
+
+        /* พื้นหลังด้านหลังฟอร์ม */
+        #background_branding_container img {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* ซ่อนหัวข้อ Sign in / Sign in with your username ที่ B2C ใส่มา */
+        #api h1,
+        #api h2,
+        #api h3,
+        #api .panel-title,
+        #api .intro,
+        #api .intro p {
+            display: none !important;
+        }
+    </style>
 </head>
-
 <body>
-  <!-- Background -->
-  <div id="background_branding_container" data-tenant-branding-background-color="true">
-    <img data-tenant-branding-background="true"
-         src="https://login.microsoftonline.com/static/tenant/templates/backgrounds/1-1.png"
-         alt="Background Image">
-  </div>
 
-  <!-- Main layout -->
-  <div class="container unified_container" role="presentation">
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="panel panel-default">
-          <div class="panel-body">
-
-            <!-- Company logo -->
-            <img class="companyLogo" data-tenant-branding-logo="true"
-                 src="https://login.microsoftonline.com/static/tenant/templates/images/logo.svg"
-                 alt="Company Logo">
-
-            <!-- Azure B2C injects sign-in form here -->
-            <div id="api" role="main"></div>
-
-            <!-- Custom message -->
-            <div style="margin-top:15px; text-align:center;">
-              <p style="font-size:14px; color:#444; line-height:1.4;">
-                ได้โปรดลงชื่อเข้าใช้งานด้วย <strong>UserID</strong> โดยจะขึ้นต้นด้วย
-                <strong>zz</strong> ตามด้วยชื่อและนามสกุลตัวแรก เช่น
-                <strong>zztestk</strong>
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </div>
+    <!-- Background -->
+    <div id="background_branding_container">
+        <img src="https://login.microsoftonline.com/static/tenant/templates/backgrounds/1-1.png"
+             alt="Background Image">
     </div>
-  </div>
 
-  <!-- Azure AD B2C layout script -->
-  <script src="https://login.microsoftonline.com/static/tenant/templates/AzureBlue/scripts.js"></script>
+    <div class="container unified_container" role="presentation">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <!-- โลโก้ -->
+                        <img class="companyLogo"
+                             src="https://login.microsoftonline.com/static/tenant/templates/images/logo.svg"
+                             alt="Company Logo">
+
+                        <!-- ข้อความที่ต้องการให้แสดงบนหน้า Username sign-in -->
+                        <div id="userId-help"
+                             style="font-size:13px;color:#555;margin:10px 0 20px 0;text-align:left;">
+                            <p style="font-weight:bold;">
+                                รูปแบบ UserID สำหรับลงชื่อเข้าใช้
+                            </p>
+                            <ul style="margin-left:20px; padding-left:0;">
+                                <li>ต้องขึ้นต้นด้วย <strong>“zz”</strong> ตามด้วยชื่อผู้ใช้ เช่น
+                                    <code>zztest</code>
+                                </li>
+                                <li>สามารถใช้ตัวอักษร <strong>A–Z, a–z</strong> และตัวเลข
+                                    <strong>0–9</strong> ได้
+                                </li>
+                                <li>ห้ามมีช่องว่าง หรืออักขระพิเศษ
+                                    (เช่น <code>!</code>, <code>@</code>, <code>#</code>, <code>$</code> เป็นต้น)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- ฟอร์ม sign-in / sign-up ที่ Azure B2C จะ render ใส่เข้ามา -->
+                        <div id="api" role="main"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ย้าย Forgot your password? ไปอยู่ใต้ Password -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var tries = 0;
+            var timer = setInterval(function () {
+                tries++;
+
+                var apiContainer = document.querySelector("#api");
+                if (!apiContainer) return;
+
+                // ช่อง password
+                var passwordInput = apiContainer.querySelector("input[type='password']");
+                // ลิงก์ forgot
+                var forgotLink = apiContainer.querySelector("a[id*='forgot'], a[href*='forgot']");
+
+                if (passwordInput && forgotLink) {
+                    // เอา forgot link ไปต่อท้าย container ของ password
+                    passwordInput.parentNode.appendChild(forgotLink);
+                    clearInterval(timer);
+                }
+
+                if (tries > 30) {
+                    clearInterval(timer);
+                }
+            }, 300);
+        });
+    </script>
+
 </body>
 </html>
