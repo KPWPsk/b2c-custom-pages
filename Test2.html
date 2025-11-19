@@ -65,11 +65,11 @@
             display: none !important;
         }
 
-        /* (2) จัดให้ลิงก์ Forgot your password? อยู่บรรทัดใหม่ใต้ช่อง Password */
+        /* ให้ Forgot your password? อยู่ใต้ช่อง Password และอยู่บนปุ่ม Sign in */
         #api a#forgotPassword {
-            display: block;          /* จาก inline → block ทำให้ลงบรรทัดใหม่ */
-            margin-top: 4px;         /* เว้นช่องห่างจาก textbox เล็กน้อย */
-            margin-bottom: 10px;     /* เว้นห่างก่อนปุ่ม Sign in */
+            display: block !important;     /* ขึ้นบรรทัดใหม่ */
+            margin-top: 4px !important;    /* ระยะห่างจากช่องรหัสผ่าน */
+            margin-bottom: 14px !important;/* ระยะห่างก่อนปุ่ม Sign in */
         }
     </style>
 </head>
@@ -122,3 +122,4 @@
 
 </body>
 </html>
+
