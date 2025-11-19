@@ -71,24 +71,31 @@
             margin-bottom: 4px;
         }
 
-        #api input[type="text"],
-        #api input[type="email"],
-        #api input[type="password"] {
-            width: 100%;
-            border-radius: 4px;
-            border: 1px solid #a6a6a6;
-            padding: 10px 12px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
+/* ===== ปรับขนาด textbox ทั้ง Username & Password ให้เท่ากัน ===== */
+#api input[type="text"],
+#api input[type="email"],
+#api input[type="password"],
+#api input#UserId,
+#api input#UserId.highlightError,
+#api input#Password,
+#api input#Password.highlightError {
+    width: 100% !important;
+    height: 44px !important;     /* ← กำหนดความสูง textbox */
+    padding: 10px 14px !important; /* ← padding ให้พอดี */
+    border: 1px solid #a6a6a6 !important;
+    border-radius: 6px !important; /* ← ขอบโค้งเรียบ */
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    background-color: #ffffff !important;
+}
 
-        #api input[type="text"]:focus,
-        #api input[type="email"]:focus,
-        #api input[type="password"]:focus {
-            outline: none;
-            border-color: #106ebe;
-            box-shadow: 0 0 0 1px #106ebe33;
-        }
+/* Focus สวย ๆ */
+#api input:focus {
+    border-color: #106ebe !important;
+    box-shadow: 0 0 0 1px #106ebe33 !important;
+    outline: none !important;
+}
+
 
         /* === ปุ่ม Sign in สีน้ำเงิน === */
         #api button,
@@ -200,3 +207,4 @@
 
 </body>
 </html>
+
