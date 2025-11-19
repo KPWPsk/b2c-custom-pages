@@ -17,7 +17,7 @@
             padding: 0;
         }
 
-        /* ทำให้ container อยู่กลางจอทั้งแนวตั้งและแนวนอน */
+        /* ทำให้กล่องฟอร์มอยู่กลางจอ */
         .unified_container {
             min-height: 100vh;
             display: flex !important;
@@ -55,7 +55,7 @@
             z-index: -1;
         }
 
-        /* ซ่อนหัวข้อ Sign in / Sign in with your username ที่ B2C ใส่มา */
+        /* (1) ซ่อนหัวข้อ Sign in / Sign in with your username ที่ B2C ใส่มา */
         #api h1,
         #api h2,
         #api h3,
@@ -65,53 +65,11 @@
             display: none !important;
         }
 
-        /* สไตล์ช่องกรอกให้ดูเรียบร้อย */
-        #api label {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        #api input[type="text"],
-        #api input[type="email"],
-        #api input[type="password"] {
-            width: 100% !important;
-            height: 44px !important;
-            padding: 10px 14px !important;
-            border: 1px solid #a6a6a6 !important;
-            border-radius: 6px !important;
-            font-size: 14px !important;
-            box-sizing: border-box !important;
-            background-color: #ffffff !important;
-        }
-
-        #api input[type="text"]:focus,
-        #api input[type="email"]:focus,
-        #api input[type="password"]:focus {
-            outline: none !important;
-            border-color: #106ebe !important;
-            box-shadow: 0 0 0 1px #106ebe33 !important;
-        }
-
-        /* ปุ่ม Sign in สีน้ำเงิน */
-        #api button,
-        #api input[type="submit"],
-        #api button#next {
-            width: 100%;
-            border-radius: 4px;
-            border: none;
-            padding: 10px 0;
-            font-size: 14px;
-            font-weight: 600;
-            background-color: #106ebe;
-            color: #ffffff;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        #api button:hover,
-        #api input[type="submit"]:hover,
-        #api button#next:hover {
-            background-color: #005a9e;
+        /* (2) จัดให้ลิงก์ Forgot your password? อยู่บรรทัดใหม่ใต้ช่อง Password */
+        #api a#forgotPassword {
+            display: block;          /* จาก inline → block ทำให้ลงบรรทัดใหม่ */
+            margin-top: 4px;         /* เว้นช่องห่างจาก textbox เล็กน้อย */
+            margin-bottom: 10px;     /* เว้นห่างก่อนปุ่ม Sign in */
         }
     </style>
 </head>
@@ -134,7 +92,7 @@
                              src="https://login.microsoftonline.com/static/tenant/templates/images/logo.svg"
                              alt="Company Logo">
 
-                        <!-- ข้อความอธิบาย UserID -->
+                        <!-- ข้อความที่ต้องการให้แสดงบนหน้า Username sign-in -->
                         <div id="userId-help"
                              style="font-size:13px;color:#555;margin:10px 0 20px 0;text-align:left;">
                             <p style="font-weight:bold;">
@@ -162,69 +120,5 @@
         </div>
     </div>
 
-    <!-- สคริปต์จัดตำแหน่ง Forgot / Sign up -->
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    // รอให้ B2C render ฟอร์มเสร็จ
-    var tries = 0;
-    var timer = setInterval(function () {
-        tries++;
-
-        var api = document.querySelector("#api");
-        if (!api) return;
-
-        // 1) หา <input type="password">
-        var passwordInput = api.querySelector("input[type='password']");
-
-        // 2) หา <a> ที่เป็น "Forgot your password?"
-        var forgotLink = Array.from(api.querySelectorAll("a")).find(function (a) {
-            return (a.textContent || "").trim().toLowerCase().indexOf("forgot your password") !== -1;
-        });
-
-        // 3) หา ปุ่ม Sign in
-        var signInButton = api.querySelector("button[type='submit'], button#next, input[type='submit']");
-
-        // 4) หา <a> ที่เป็น "Sign up now"
-        var signUpLink = Array.from(api.querySelectorAll("a")).find(function (a) {
-            return (a.textContent || "").trim().toLowerCase().indexOf("sign up now") !== -1;
-        });
-
-        // ---------- ย้าย Forgot your password? ไปไว้ใต้ Password ----------
-        if (passwordInput && forgotLink) {
-            // เอาออกจากที่เดิมก่อน
-            if (forgotLink.parentNode) {
-                forgotLink.parentNode.removeChild(forgotLink);
-            }
-            // แทรก "หลัง" ช่อง password
-            passwordInput.insertAdjacentElement("afterend", forgotLink);
-            forgotLink.style.display = "block";
-            forgotLink.style.margin = "4px 0 10px 0";
-        }
-
-        // ---------- ย้าย Don’t have an account? Sign up now ไปใต้ปุ่ม ----------
-        if (signInButton && signUpLink) {
-            // ดึงทั้งประโยคที่หุ้มลิงก์ เช่น <p>Don't have an account? <a>Sign up now</a></p>
-            var signUpContainer = signUpLink.closest("p, div, span") || signUpLink;
-
-            if (signUpContainer.parentNode) {
-                signUpContainer.parentNode.removeChild(signUpContainer);
-            }
-
-            // แทรกลง "หลัง" ปุ่ม Sign in
-            signInButton.insertAdjacentElement("afterend", signUpContainer);
-            signUpContainer.style.marginTop = "10px";
-        }
-
-        // ถ้าลองครบ 30 รอบแล้วยังไม่เจออะไร ให้หยุด
-        if ((passwordInput && forgotLink && signInButton && signUpLink) || tries > 30) {
-            clearInterval(timer);
-        }
-
-    }, 300);
-});
-</script>
-
 </body>
 </html>
-
