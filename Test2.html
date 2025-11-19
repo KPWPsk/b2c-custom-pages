@@ -65,7 +65,7 @@
             display: none !important;
         }
 
-        /* ===== สไตล์ช่องกรอกให้เหมือนรูป ===== */
+        /* === สไตล์ช่องกรอกให้เหมือนรูป === */
         #api label {
             font-weight: 600;
             margin-bottom: 4px;
@@ -90,7 +90,7 @@
             box-shadow: 0 0 0 1px #106ebe33;
         }
 
-        /* ===== ปุ่ม Sign in สีน้ำเงินแบบในรูป ===== */
+        /* === ปุ่ม Sign in สีน้ำเงิน === */
         #api button,
         #api input[type="submit"],
         #api button#next {
@@ -160,7 +160,7 @@
         </div>
     </div>
 
-    <!-- ย้าย Forgot your password? ไปอยู่ใต้ Password -->
+    <!-- ย้าย Forgot your password? และ Sign up now ให้อยู่ตามรูป -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var tries = 0;
@@ -170,14 +170,27 @@
                 var apiContainer = document.querySelector("#api");
                 if (!apiContainer) return;
 
+                // หา element ต่าง ๆ จากฟอร์มที่ B2C render มา
                 var passwordInput = apiContainer.querySelector("input[type='password']");
-                var forgotLink = apiContainer.querySelector("a[id*='forgot'], a[href*='forgot']");
+                var forgotLink    = apiContainer.querySelector("a[id*='forgot'], a[href*='forgot']");
+                var signInButton  = apiContainer.querySelector("button[type='submit'], button#next, input[type='submit']");
+                var signUpLink    = apiContainer.querySelector("a[id*='signup'], a[href*='signup'], a[id*='create'], a[href*='create']");
 
+                // 1) ย้าย Forgot your password? ให้อยู่ใต้ Password
                 if (passwordInput && forgotLink) {
                     passwordInput.parentNode.appendChild(forgotLink);
-                    clearInterval(timer);
                 }
 
+                // 2) ย้าย Don't have an account? Sign up now ให้อยู่ใต้ปุ่ม Sign in
+                if (signInButton && signUpLink) {
+                    // เอา container ที่หุ้มลิงก์ Sign up now ทั้งประโยค
+                    var signUpContainer = signUpLink.closest("p, div, span") || signUpLink;
+                    signInButton.parentNode.appendChild(signUpContainer);
+                }
+
+                if ((passwordInput && forgotLink) || (signInButton && signUpLink)) {
+                    clearInterval(timer);
+                }
                 if (tries > 30) {
                     clearInterval(timer);
                 }
